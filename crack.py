@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-EMAIL = '1016903103@qq.com'
+EMAIL = 'cqc@cuiqingcai.com'
 PASSWORD = ''
 BORDER = 6
 INIT_LEFT = 60
