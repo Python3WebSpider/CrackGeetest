@@ -64,7 +64,7 @@ class CrackGeetest():
         slider = self.wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'geetest_slider_button')))
         return slider
     
-    def get_geetest_image(self):
+    def get_geetest_image(self, name='captcha.png'):
         """
         获取验证码图片
         :return: 图片对象
@@ -73,6 +73,7 @@ class CrackGeetest():
         print('验证码位置', top, bottom, left, right)
         screenshot = self.get_screenshot()
         captcha = screenshot.crop((left, top, right, bottom))
+        captcha.save(name)
         return captcha
     
     def open(self):
@@ -186,20 +187,20 @@ class CrackGeetest():
         button = self.get_geetest_button()
         button.click()
         # 获取验证码图片
-        image1 = self.get_geetest_image()
+        image1 = self.get_geetest_image('captcha1.png')
         # 点按呼出缺口
         slider = self.get_slider()
         slider.click()
         # 获取带缺口的验证码图片
-        image2 = self.get_geetest_image()
+        image2 = self.get_geetest_image('captcha2.png')
         # 获取缺口位置
         gap = self.get_gap(image1, image2)
-        print('Gap', gap)
+        print('缺口位置', gap)
         # 减去缺口位移
         gap -= BORDER
         # 获取移动轨迹
         tracks = self.get_track(gap)
-        print(tracks)
+        print('滑动轨迹', tracks)
         # 拖动滑块
         self.move_to_gap(slider, tracks)
         
