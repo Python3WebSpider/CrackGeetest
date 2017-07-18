@@ -22,8 +22,7 @@ class CrackGeetest():
         self.password = PASSWORD
     
     def __del__(self):
-        # self.browser.close()
-        pass
+        self.browser.close()
     
     def get_geetest_button(self):
         """
