@@ -30,7 +30,6 @@ class CrackGeetest():
         :return:
         """
         button = self.wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'geetest_radar_tip')))
-        print(button)
         return button
     
     def get_position(self):
@@ -114,8 +113,8 @@ class CrackGeetest():
         pixel1 = image1.load()[x, y]
         pixel2 = image2.load()[x, y]
         threshold = 60
-        if (abs(pixel1[0] - pixel2[0] < threshold) and abs(pixel1[1] - pixel2[1] < threshold) and abs(
-                    pixel1[2] - pixel2[2] < threshold)):
+        if abs(pixel1[0] - pixel2[0]) < threshold and abs(pixel1[1] - pixel2[1]) < threshold and abs(
+                pixel1[2] - pixel2[2]) < threshold:
             return True
         else:
             return False
@@ -156,15 +155,15 @@ class CrackGeetest():
             track.append(round(move))
         return track
     
-    def move_to_gap(self, slider, tracks):
+    def move_to_gap(self, slider, track):
         """
         拖动滑块到缺口处
         :param slider: 滑块
-        :param tracks: 轨迹
+        :param track: 轨迹
         :return:
         """
         ActionChains(self.browser).click_and_hold(slider).perform()
-        for x in tracks:
+        for x in track:
             ActionChains(self.browser).move_by_offset(xoffset=x, yoffset=0).perform()
         time.sleep(0.5)
         ActionChains(self.browser).release().perform()
@@ -198,10 +197,10 @@ class CrackGeetest():
         # 减去缺口位移
         gap -= BORDER
         # 获取移动轨迹
-        tracks = self.get_track(gap)
-        print('滑动轨迹', tracks)
+        track = self.get_track(gap)
+        print('滑动轨迹', track)
         # 拖动滑块
-        self.move_to_gap(slider, tracks)
+        self.move_to_gap(slider, track)
         
         success = self.wait.until(
             EC.text_to_be_present_in_element((By.CLASS_NAME, 'geetest_success_radar_tip_content'), '验证成功'))
